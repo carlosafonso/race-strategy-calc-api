@@ -9,7 +9,11 @@ $logger = new \Monolog\Logger('app');
 $logger->pushHandler(new \Monolog\Handler\StreamHandler('php://stdout', \Monolog\Logger::DEBUG));
 
 $container->add(\Psr\Log\LoggerInterface::class, $logger);
-$container->add(\Afonso\Pitstops\Api\ApiController::class);
+$container->add(\Afonso\Pitstops\Api\TyreTypeNormalizer::class);
+$container->add(\Afonso\Pitstops\Api\TyreSetNormalizer::class)->addArgument(\Afonso\Pitstops\Api\TyreTypeNormalizer::class);
+$container->add(\Afonso\Pitstops\Api\StintNormalizer::class)->addArgument(\Afonso\Pitstops\Api\TyreSetNormalizer::class);
+$container->add(\Afonso\Pitstops\Api\StrategyNormalizer::class)->addArgument(\Afonso\Pitstops\Api\StintNormalizer::class);
+$container->add(\Afonso\Pitstops\Api\ApiController::class)->addArgument(\Afonso\Pitstops\Api\StrategyNormalizer::class);
 /**/
 
 /* Routes */
